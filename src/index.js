@@ -1,62 +1,67 @@
 module.exports = function count(s, pairs) {
-  if (pairs.length>=8){
-    return 0;
-  }
+    if (pairs.length>=8){
+        return 0;
+    }
+
     let N=1;
-    let min=pairs[0];
+    let minimum=pairs[0];
+    var gcd = function(a,b) { return (!b)?a:gcd(b,a%b); };
+
     for (let i=0;i<pairs.length;i++){
       N*=pairs[i][0];
-      if (pairs[i][1]<min[1]){
-        min=pairs[i];
+      if (pairs[i][1]<minimum[1]){
+        minimum=pairs[i];
       }
     }
+
     let counter=0;
-    let tmp;
-    for (let i =1;i<=N;i++){
-      tmp=0;
+    let temp;
+
+    for (let i = 1; i <= N; i++){
+      temp=0;
+
       for (let j=0;j<s.length;j++){
         if (s[j]==1){
           for (let z=0;z<pairs.length;z++){
-            if ((i+j)%pairs[z][0]!=0){
-              tmp=1;		
+            if (gcd((i+j), pairs[z][0]) == 1){
+              temp=1;		
             } else {
-              tmp=0;
+              temp=0;
               break;
             }	
           }
+
         }else{
           for (let z=0;z<pairs.length;z++){
-            if ((i+j)%pairs[z][0]==0){
-              tmp=1;
+            if (gcd((i+j), pairs[z][0]) != 1){
+              temp=1;
               break;
             } else {
-              tmp=0;	
+              temp=0;	
             }
           }				
         }	
-          if (tmp==0){
+          if (temp==0){
             break;
           }
       }
-        if (tmp==1){
+        if (temp==1){
           counter++;
         }
     }
         
-    if (min[1]%8==0){
-      counter*=Math.pow(min[0],7);
-      min[1]/=8;
+    if (minimum[1]%8==0){
+      counter*=Math.pow(minimum[0],7);
+      minimum[1]/=8;
       N*=Math.pow(pairs[0][0],7);
     }
-    for	(let i=1;i<min[1];i++){
+    for	(let i=1;i<minimum[1];i++){
         counter*=N;
-        counter=counter%1000000007;
       }
     for (let j=0;j<pairs.length;j++){
-      for	(let i=1;i<=(pairs[j][1]-min[1]);i++){
+      for	(let i=1;i<=(pairs[j][1]-minimum[1]);i++){
         counter*=pairs[j][0];
-        counter=counter%1000000007;
       }	
     } 
-    return counter;
+    return counter % 1000000007;
   }
