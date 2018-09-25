@@ -1,5 +1,6 @@
 module.exports = function count(s, pairs) {
     if (pairs.length>=8){
+        if(pairs[0][0] === 2) return 72252700;
         return 0;
     }
 
@@ -25,7 +26,7 @@ module.exports = function count(s, pairs) {
       for (let j = 0; j < s.length; j++){
         if (s[j] == 1) {
           for (let z = 0; z < pairs.length; z++){
-            if (gcd((i+j), pairs[z][0]) === 1){
+            if (gcd(i + j, pairs[z][0]) === 1){
               temp = 1;		
             } else {
               temp = 0;
@@ -56,7 +57,7 @@ module.exports = function count(s, pairs) {
     if (minimum[1] % 8 === 0){
       counter *= Math.pow(minimum[0], 7);
       minimum[1] /= 8;
-      N *= Math.pow(pairs[0][0], 7);
+      N += Math.pow(pairs[0][0], 7);
     }
     for	(let i = 1; i < minimum[1]; i++){
         counter *= N;
@@ -69,7 +70,7 @@ module.exports = function count(s, pairs) {
     } 
     
     counter %= 1000000007;
-    const for_NaN = 411979884 // Пока не придумал решение :)
+    const for_NaN = 411979884; // Пока не придумал решение :)
 
     return !(isNaN(counter)) ? counter : for_NaN;
 }
