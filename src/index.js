@@ -1,6 +1,5 @@
 module.exports = function count(s, pairs) {
     if (pairs.length>=8){ // Больше 8 пошло зависание из-за преодоления временного порога... Временное решение.
-
         return 0;
     }
 
@@ -53,11 +52,11 @@ module.exports = function count(s, pairs) {
         counter++;
       }
     }
-        
+
     if (minimum[1] % 8 === 0){
       counter *= Math.pow(minimum[0], 7);
       minimum[1] /= 8;
-      N += Math.pow(pairs[0][0], 7);
+      N *= Math.pow(pairs[0][0], 7);
     }
     for	(let i = 1; i < minimum[1]; i++){
         counter *= N;
@@ -70,7 +69,6 @@ module.exports = function count(s, pairs) {
     } 
     
     counter %= 1000000007;
-    const for_NaN = 411979884; // Пока не придумал решение :)
 
-    return !(isNaN(counter)) ? counter : for_NaN;
+    return counter;
 }
