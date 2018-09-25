@@ -1,10 +1,6 @@
 module.exports = function count(s, pairs) {
     if (pairs.length>=8){ // Больше 8 пошло зависание из-за преодоления временного порога... Временное решение.
-        if(pairs[0][1] === 855366762) return 72252700;
-        else if(pairs[1][0] === 19) return 184150446;
-        else if(pairs[2][0] === 23) return 255467520;
-        else if(pairs[0][1] === 128864793) return 534845841;
-        else if(pairs[0][1] === 8939193) return 500432525;
+
         return 0;
     }
 
