@@ -1,74 +1,19 @@
 module.exports = function count(s, pairs) {
-    if (pairs.length>=8){ // Больше 8 пошло зависание из-за преодоления временного порога... Временное решение.
-        return 0;
+    let n = 1;
+    let arr = [], arr2 = [];
+
+    for (let i = 0; i < pairs.length; i++) {
+        n *= Math.pow(pairs[i][0], pairs[i][1]);
+        arr2.push(pairs[i][0]);
     }
 
-    let N = 1;
-    let minimum = pairs[0];
-    const gcd = (a,b) => { 
-        return (!b) ? a : gcd(b, a % b);
-    };
-
-    for (let i = 0; i < pairs.length; i++){
-      N *= pairs[i][0];
-      if (pairs[i][1]<minimum[1]){
-        minimum = pairs[i];
-      }
+    for (let i = 0; i < n; i++){
+    if (arr2.some(elem => i % elem == 0)) arr.push(0);
+     else arr.push(1);
     }
 
-    let counter=0;
-    let temp;
-
-    for (let i = 1; i <= N; i++){
-      temp = 0;
-
-      for (let j = 0; j < s.length; j++){
-        if (s[j] == 1) {
-          for (let z = 0; z < pairs.length; z++){
-            if (gcd(i + j, pairs[z][0]) === 1){
-              temp = 1;		
-            } else {
-              temp = 0;
-              break;
-            }	
-          }
-        } else {
-          for (let z = 0;z < pairs.length; z++){
-            if (gcd((i+j), pairs[z][0]) !== 1){
-              temp = 1;
-              break;
-            } else {
-              temp = 0;	
-            }
-          }				
-        }	
-
-        if (temp==0){
-            break;
-        }
-      }
-    
-      if (temp==1){
-        counter++;
-      }
-    }
-
-    if (minimum[1] % 8 === 0){
-      counter *= Math.pow(minimum[0], 7);
-      minimum[1] /= 8;
-      N *= Math.pow(pairs[0][0], 7);
-    }
-    for	(let i = 1; i < minimum[1]; i++){
-        counter *= N;
-    }
-
-    for (let j = 0; j < pairs.length; j++){
-      for (let i = 1; i <= (pairs[j][1] - minimum[1]); i++){
-        counter *= pairs[j][0];
-      }	
-    } 
-    
-    counter %= 1000000007;
-
-    return counter;
+    //console.log(arr);
+    let res = arr.join('').replace(new RegExp(s, 'g'), 'y').split('').filter((elem) => elem === 'y');
+    //console.log(res);
+    return res.length % 1000000007;
 }
