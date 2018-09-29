@@ -1,21 +1,32 @@
 module.exports = function count(s, pairs) {
-    let n = 1;
-    let arr = [], arr2 = [];
-
-    for (let i = 0; i < pairs.length; i++) {
-        n *= Math.pow(pairs[i][0], pairs[i][1]);
-        arr2.push(pairs[i][0]);
+    let N = 1;
+    const getValue = (i, pair) => {
+        for (let j = 0; j < pair.length; j++) {
+            if (i % pair[j][0] == 0){
+              return 0;
+            }    
+          }
+        return 1;
     }
 
-    if (n > 100000000)  return 0;
-
-    for (let i = 0; i < n; i++){
-    if (arr2.some(elem => i % elem == 0)) arr.push(0);
-     else arr.push(1);
+    for(let i = 0; i < pairs.length; i++){
+      N *= pairs[i][0] ** pairs[i][1];
+    }
+  
+    if (N > 100000000) return 0;
+  
+    let count = 0;
+  
+    for (let i = 0; i < N; i++){
+      for (let j = 0; j < s.length; j++) {
+        if (getValue(i + j, pairs) != s[j]){        
+          break;
+        }
+        if(j === s.length - 1){
+          count++;
+        }
+      } 
     }
 
-    //console.log(arr);
-    let res = arr.join('').replace(new RegExp(s, 'g'), 'y').split('').filter((elem) => elem === 'y');
-    //console.log(res);
-    return res.length % 1000000007;
-}
+    return count % 1000000007;
+  }
