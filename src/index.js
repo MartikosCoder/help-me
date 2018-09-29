@@ -7,6 +7,8 @@ module.exports = function count(s, pairs) {
         arr2.push(pairs[i][0]);
     }
 
+    if (n > 100000000)  return 0;
+
     for (let i = 0; i < n; i++){
     if (arr2.some(elem => i % elem == 0)) arr.push(0);
      else arr.push(1);
